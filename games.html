@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James's Arcade - My Game Creations</title>
+    <meta name="description" content="Play custom 3D and 2D games created by James Zhang.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Card & Arcade custom styles */
+        .arcade-section {
+            padding: 8rem 2rem 4rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .arcade-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .arcade-subtitle {
+            font-size: 1.15rem;
+            color: var(--secondary-text);
+            margin-bottom: 3.5rem;
+            font-family: var(--font-sans);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.25);
+        }
+
+        .game-header {
+            height: 230px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .game-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+            z-index: 1;
+        }
+
+        .game-tag {
+            background-color: var(--accent-color);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 2;
+        }
+
+        .game-title-group {
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-card-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
+        }
+
+        .game-card-tagline {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-family: var(--font-sans);
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .game-body {
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .game-description {
+            font-size: 0.95rem;
+            color: var(--secondary-text);
+            margin-bottom: 2.2rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .game-btn {
+            display: inline-block;
+            text-align: center;
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+            padding: 0.85rem 2.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        /* Light theme overrides for game card text */
+        [data-theme="light"] .game-card {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-color: rgba(191, 161, 95, 0.2);
+        }
+        [data-theme="light"] .game-card:hover {
+            box-shadow: 0 12px 30px rgba(191, 161, 95, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <nav class="main-nav">
+        <div class="logo">MEMOIR</div>
+        <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="blog/index.html">Blog</a></li>
+            <li><a href="games.html" class="active">Games</a></li>
+            <li><a href="index.html#timeline">Timeline</a></li>
+            <li><a href="index.html#chapters">Chapters</a></li>
+            <li><a href="index.html#gallery">Gallery</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="theme-toggle" aria-label="Toggle Theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="display:none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="arcade-section">
+            <h1 class="arcade-title">James's Arcade</h1>
+            <p class="arcade-subtitle">My Game Creations</p>
+
+            <div class="games-grid">
+                <!-- Game Card 1: Rivals 3D Clone -->
+                <div class="game-card">
+                    <div class="game-header" style="background-image: url('assets/rivals_thumb.jpg');">
+                        <span class="game-tag">3D FPS</span>
+                        <div class="game-title-group">
+                            <h2 class="game-card-title">Rivals 3D Clone</h2>
+                            <span class="game-card-tagline">Arena Shooter</span>
+                        </div>
+                    </div>
+                    <div class="game-body">
+                        <p class="game-description">
+                            A high-octane 3D first-person arena shooter clone. Features advanced player physics,
+                            sprinting, sliding, aiming down sights (ADS), a heading-up rotating minimap, active bots, and an extensive underground cave network.
+                        </p>
+                        <a href="rivals/index.html" class="game-btn">Play Game</a>
+                    </div>
+                </div>
+
+                <!-- Game Card 2: Terra Nova -->
+                <div class="game-card">
+                    <div class="game-header" style="background-image: url('assets/terranova_thumb.jpg');">
+                        <span class="game-tag">2D RPG</span>
+                        <div class="game-title-group">
+                            <h2 class="game-card-title">Terra Nova</h2>
+                            <span class="game-card-tagline">Infinite Horizon</span>
+                        </div>
+                    </div>
+                    <div class="game-body">
+                        <p class="game-description">
+                            A procedurally generated, massive top-down exploration game. Navigate across rich biomes, track real-time coordinates, collect relics, light campfires, write in your explorer journal, and experience dynamic night cycles.
+                        </p>
+                        <a href="terranova/index.html" class="game-btn">Play Game</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 James. All rights reserved. | <a href="privacy.html">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

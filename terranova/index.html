@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terra Nova: The Infinite Horizon</title>
+  <meta name="description" content="A procedurally generated, massive top-down exploration game featuring rich biomes, dynamic weather, custom synthesizers, and real-time maps.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Game Canvas -->
+    <canvas id="game-canvas"></canvas>
+
+    <!-- Start / Splash Screen -->
+    <div id="start-screen">
+      <div class="start-panel">
+        <h1 class="start-title" id="title-banner">TERRA NOVA</h1>
+        <p class="start-subtitle">The Infinite Horizon</p>
+        <button class="btn-primary" id="start-btn">Begin Journey</button>
+        <p class="click-notice">* Sound is enabled upon entry</p>
+        <div class="controls-guide">
+          <p>Explore a procedurally generated infinite world.</p>
+          <br>
+          <p><strong>WASD / Arrow Keys</strong> &mdash; Move Explorer</p>
+          <p><strong>E</strong> &mdash; Open Chests / Light Campfires</p>
+          <p><strong>M</strong> &mdash; Toggle Full Map (Pan & Zoom)</p>
+          <p><strong>J</strong> &mdash; Open Explorer's Journal</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD Overlay Layer -->
+    <div class="hud-layer">
+      <!-- Top Left: Mini Map Panel -->
+      <div id="minimap-panel" class="glass-panel">
+        <div class="minimap-wrapper">
+          <canvas id="minimap-canvas"></canvas>
+          <div class="minimap-compass">N</div>
+        </div>
+        <div id="coords-display">
+          Coordinates: <span id="coords-text">0 E, 0 N</span>
+        </div>
+      </div>
+
+      <!-- Top Right: Time Clock & Audio Toggle -->
+      <div id="time-audio-panel" class="glass-panel">
+        <div class="time-clock">
+          <span class="time-icon" id="time-icon"></span>
+          <span id="clock-time">12:00 PM</span>
+        </div>
+        <button class="audio-btn" id="audio-toggle" title="Toggle Sound">🔊</button>
+      </div>
+
+      <!-- Bottom Center: Stats Panel -->
+      <div id="stats-panel" class="glass-panel">
+        <div class="stat-item">
+          <span class="stat-label">Current Biome</span>
+          <span class="stat-value biome" id="biome-value">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Bottom Right: Journal Trigger -->
+      <button id="journal-btn" class="glass-panel">
+        📖 Journal (J)
+      </button>
+    </div>
+
+    <!-- Interaction Popup Notification -->
+    <div id="interaction-prompt">
+      <strong>E</strong> Interact
+    </div>
+
+    <!-- Biome Discovery Banner Pop-up -->
+    <div id="biome-popup">
+      <div class="popup-icon">🧭</div>
+      <div>
+        <div class="popup-title">New Biome Discovered</div>
+        <div class="popup-name">Vibrant Plains</div>
+      </div>
+    </div>
+
+    <!-- Journal Overlay Screen -->
+    <div id="journal-screen" class="overlay-screen">
+      <button class="close-btn" id="journal-close">&times;</button>
+      <div class="journal-panel glass-panel">
+        <!-- Sidebar Navigation -->
+        <div class="journal-sidebar">
+          <h2 class="journal-title">Explorer Log</h2>
+          <button class="tab-btn active" data-tab="relics">💎 Relics</button>
+          <button class="tab-btn" data-tab="discoveries">🧭 Biomes</button>
+          <button class="tab-btn" data-tab="stats">📈 Statistics</button>
+        </div>
+        <!-- Main Content Pane -->
+        <div class="journal-content">
+          <!-- Pane 1: Relics Gallery -->
+          <div class="journal-tab-pane active" id="relics-pane">
+            <h2>Discovered Relics</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #94a3b8;">
+              Locate ancient ruins or abandoned campsites in the world to recover lost antiquities.
+            </p>
+            <div class="relics-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <!-- Pane 2: Biomes Discovered Checklist -->
+          <div class="journal-tab-pane" id="discoveries-pane">
+            <h2>World Biomes Checklist</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #94a3b8;">
+              Travel across the map to discover all unique climates and terrain conditions.
+            </p>
+            <div class="discoveries-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <!-- Pane 3: Stats -->
+          <div class="journal-tab-pane" id="stats-pane">
+            <h2>Exploration Statistics</h2>
+            <br>
+            <div class="journal-stats-grid">
+              <div class="journal-stat-card">
+                <div class="stat-label">Steps Walked</div>
+                <div class="journal-stat-num" id="stat-steps">0</div>
+              </div>
+              <div class="journal-stat-card">
+                <div class="stat-label">Relics Discovered</div>
+                <div class="journal-stat-num" id="stat-relics">0 / 10</div>
+              </div>
+              <div class="journal-stat-card">
+                <div class="stat-label">Unique Biomes Discovered</div>
+                <div class="journal-stat-num" id="stat-biomes">0 / 10</div>
+              </div>
+              <div class="journal-stat-card">
+                <div class="stat-label">Current Position</div>
+                <div class="journal-stat-num" style="font-size: 1.8rem;" id="stat-coords">0 E, 0 N</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full screen Map Overlay Screen -->
+    <div id="fullmap-screen" class="overlay-screen">
+      <button class="close-btn" id="fullmap-close">&times;</button>
+      <div class="fullmap-container">
+        <canvas id="fullmap-canvas"></canvas>
+        <div class="map-controls-hint">
+          Drag map to pan • Scroll to Zoom
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- Load Modules in order -->
+  <script src="noise.js"></script>
+  <script src="world.js"></script>
+  <script src="player.js"></script>
+  <script src="audio.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

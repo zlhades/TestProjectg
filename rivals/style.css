@@ -1,0 +1,1189 @@
+/* style.css */
+/* Modern Cyberpunk / Roblox Rivals Theme Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+    --bg-dark: #0a0c10;
+    --bg-panel: rgba(18, 22, 30, 0.85);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --neon-cyan: #00ffcc;
+    --neon-red: #ff3366;
+    --neon-blue: #0088ff;
+    --gold: #ffd700;
+    --text-primary: #ffffff;
+    --text-secondary: #90a4ae;
+    
+    /* Skins Colors */
+    --rarity-common: #9e9e9e;
+    --rarity-rare: #2196f3;
+    --rarity-epic: #9c27b0;
+    --rarity-legendary: #ffd700;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    outline: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Canvas & Shell
+   ========================================================================== */
+#game-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ==========================================================================
+   Dashboard UI (Lobby Menu)
+   ========================================================================== */
+.menu-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(10,12,16,0.6) 0%, rgba(5,6,8,0.95) 100%);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    transition: opacity 0.5s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+
+.currency-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    gap: 10px;
+}
+
+.coin-icon {
+    color: var(--gold);
+    font-size: 1.3rem;
+    text-shadow: 0 0 8px var(--gold);
+}
+
+/* Main Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr 340px;
+    gap: 30px;
+    flex: 1;
+    min-height: 0; /* allows scrolling inside grid items */
+}
+
+/* Left Sidebar: Profile & Statistics */
+.sidebar-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+.panel-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    border-left: 4px solid var(--neon-cyan);
+    padding-left: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-card.full-width {
+    grid-column: span 2;
+}
+
+.stat-val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--neon-cyan);
+}
+
+.stat-lbl {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Center Section: Duel Launcher & Lobby visual */
+.center-lobby {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 20px 0;
+}
+
+.lobby-graphic {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.lobby-avatar-preview {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: center;
+    animation: floatingEffect 4s ease-in-out infinite;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--border-color);
+    padding: 60px 40px;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 450px;
+}
+
+.play-selector {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.diff-selector {
+    display: flex;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    border-radius: 12px;
+    gap: 5px;
+}
+
+.diff-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 10px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.diff-btn.active.easy {
+    background: #4caf50;
+    color: white;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+}
+.diff-btn.active.medium {
+    background: var(--neon-blue);
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 136, 255, 0.4);
+}
+.diff-btn.active.hard {
+    background: var(--neon-red);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+}
+.diff-btn.active.impossible {
+    background: linear-gradient(135deg, #ffd700, #ff3300);
+    color: black;
+    box-shadow: 0 0 12px rgba(255, 69, 0, 0.6);
+}
+.diff-btn.map-btn {
+    font-size: 0.75rem;
+}
+.diff-btn.map-btn.active.classic {
+    background: #78909c;
+    color: white;
+    box-shadow: 0 0 10px rgba(120, 144, 156, 0.4);
+}
+.diff-btn.map-btn.active.desert {
+    background: #ffd54f;
+    color: black;
+    box-shadow: 0 0 10px rgba(255, 213, 79, 0.4);
+}
+.diff-btn.map-btn.active.cyber {
+    background: var(--neon-cyan);
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+}
+.diff-btn.map-btn.active.jungle {
+    background: #00e676;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+}
+.diff-btn.map-btn.active.highlands {
+    background: #81c784;
+    color: black;
+    box-shadow: 0 0 10px rgba(129, 199, 132, 0.4);
+}
+
+
+
+.btn-play {
+    width: 100%;
+    background: linear-gradient(135deg, #00e676, #00b0ff);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+    text-transform: uppercase;
+}
+
+.btn-play:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(0, 230, 118, 0.6);
+}
+
+/* Right Sidebar: Loadout & Case Shop */
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.loadout-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.loadout-slot {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loadout-slot:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--neon-cyan);
+}
+
+.slot-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.slot-weapon {
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.shop-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.crate-buy-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.03);
+    gap: 12px;
+    text-align: center;
+}
+
+.crate-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--gold);
+}
+
+.btn-buy-case {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-buy-case:hover {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.mute-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 105;
+}
+
+.mute-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ==========================================================================
+   Case Opening overlay spinner
+   ========================================================================== */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5,6,8,0.92);
+    backdrop-filter: blur(15px);
+    z-index: 200;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.spinner-container {
+    width: 800px;
+    background: #111520;
+    border: 3px solid var(--border-color);
+    border-radius: 16px;
+    position: relative;
+    padding: 30px 0;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    margin-bottom: 40px;
+}
+
+.spinner-track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    padding: 0 380px; /* offset start to first item centered */
+    transition: transform 5.5s cubic-bezier(0.1, 0.8, 0.15, 1);
+}
+
+.spinner-card {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    background: #171d2b;
+    border-bottom: 5px solid var(--rarity-common);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 10px;
+}
+
+.spinner-card.Common { border-color: var(--rarity-common); }
+.spinner-card.Rare { border-color: var(--rarity-rare); }
+.spinner-card.Epic { border-color: var(--rarity-epic); }
+.spinner-card.Legendary { border-color: var(--rarity-legendary); }
+
+.spinner-card-icon {
+    width: 50px;
+    height: 25px;
+    border-radius: 4px;
+}
+
+.spinner-card-name {
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.spinner-card-weapon {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.spinner-marker {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 15px var(--neon-cyan);
+    z-index: 10;
+}
+
+.unlock-announcement {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    animation: scalePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.unlock-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    color: var(--text-secondary);
+}
+
+.unlocked-card {
+    transform: scale(1.3);
+    margin: 20px 0;
+    box-shadow: 0 0 35px var(--neon-cyan);
+}
+
+.btn-close-modal {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid var(--border-color);
+    padding: 12px 30px;
+    font-weight: 800;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    transition: background 0.2s;
+}
+
+.btn-close-modal:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ==========================================================================
+   Weapon Skin Customizer overlay Drawer
+   ========================================================================= */
+.skin-drawer {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.skins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.skin-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.skin-item:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.05);
+}
+
+.skin-item.equipped {
+    border-color: var(--neon-cyan);
+    background: rgba(0, 255, 204, 0.03);
+}
+
+.skin-item.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.skin-item-rarity {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
+   Active gameplay HUD layout
+   ========================================================================== */
+#hud-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    display: none;
+    pointer-events: none; /* allows clicks to go to canvas */
+}
+
+/* Crosshair standard center dot */
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: #00ffcc;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00ffcc;
+    transition: transform 0.1s ease;
+}
+
+/* Hitmarker (Cross shape overlays) */
+#hitmarker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+#hitmarker::before, #hitmarker::after {
+    content: '';
+    position: absolute;
+    background: white;
+}
+
+/* Horizontal line segments */
+#hitmarker::before {
+    top: 13px;
+    left: 0;
+    width: 30px;
+    height: 4px;
+}
+/* Vertical line segments */
+#hitmarker::after {
+    top: 0;
+    left: 13px;
+    width: 4px;
+    height: 30px;
+}
+
+/* Make it look like crosshairs segments instead of solid cross */
+#hitmarker.active {
+    opacity: 1;
+    animation: hitmarkerFade 0.2s ease-out forwards;
+}
+
+/* Bottom Stats (HP, Shield, Ammo) */
+.hud-bottom {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+    align-items: flex-end;
+}
+
+.hud-bars-container {
+    background: rgba(5, 8, 12, 0.8);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 340px;
+    backdrop-filter: blur(10px);
+}
+
+.hud-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hud-bar-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.hud-bar-track {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.hud-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.15s ease-out;
+}
+
+#hud-hp-bar {
+    background: #00e676;
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+}
+
+#hud-armor-bar {
+    background: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 136, 255, 0.4);
+}
+
+.hud-ammo-box {
+    background: rgba(5, 8, 12, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px 30px;
+    text-align: center;
+    width: 180px;
+    backdrop-filter: blur(10px);
+}
+
+#hud-ammo-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--neon-cyan);
+}
+
+#hud-weapon-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+/* Slot overlay hud selection */
+.hud-slots-overlay {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hud-slot {
+    background: rgba(5, 8, 12, 0.7);
+    border: 1px solid var(--border-color);
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+}
+
+.hud-slot.active {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.2);
+}
+
+.hud-slot-index {
+    font-size: 0.65rem;
+    opacity: 0.5;
+}
+
+/* Top Center Scoreboard */
+.hud-top {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.hud-round-card {
+    background: rgba(5, 8, 12, 0.85);
+    border: 1px solid var(--border-color);
+    padding: 10px 24px;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+#hud-round-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+#hud-score-label {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: white;
+}
+
+/* Match Start Countdown Overlay */
+.countdown-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#countdown-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 7rem;
+    font-weight: 900;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 30px var(--neon-cyan);
+    animation: scaleThrob 1s ease-in-out infinite;
+}
+
+/* Damage overlay screen flash */
+#damage-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(255, 0, 80, 0.5) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.05s ease-in-out;
+    z-index: 60;
+}
+
+/* Floating Roblox Damage Number */
+.floating-damage {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    color: #ffeb3b;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    pointer-events: none;
+    animation: damageAnim 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+    z-index: 70;
+}
+
+.floating-damage.headshot {
+    color: #ff3366;
+    font-size: 2.3rem;
+    animation: damageHeadshotAnim 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+/* Headshot feedback banner overlay */
+#headshot-banner {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 65;
+}
+
+#headshot-banner.active {
+    animation: bannerPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Round Win/Lose Banner overlays */
+.round-outcome-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 80;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.6) 100%);
+}
+
+.outcome-banner {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    animation: scalePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.round-outcome-overlay.win .outcome-banner {
+    color: #00e676;
+    text-shadow: 0 0 25px rgba(0, 230, 118, 0.5);
+}
+
+.round-outcome-overlay.lose .outcome-banner {
+    color: var(--neon-red);
+    text-shadow: 0 0 25px rgba(255, 51, 102, 0.5);
+}
+
+/* Sniper scope black circular framing overlay */
+#sniper-scope {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 55;
+    pointer-events: none;
+}
+
+.scope-reticle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    border: 300px solid black;
+    border-radius: 50%;
+    box-sizing: content-box;
+}
+
+.scope-hair-h, .scope-hair-v {
+    position: absolute;
+    background: red;
+    opacity: 0.6;
+}
+
+.scope-hair-h {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+.scope-hair-v {
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+}
+
+.scope-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 30%, black 75%);
+}
+
+/* Match summary panel */
+.summary-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5,6,8,0.92);
+    backdrop-filter: blur(15px);
+    z-index: 300;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.summary-card {
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    width: 480px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#summary-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.reward-card {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px dashed var(--gold);
+    border-radius: 12px;
+    padding: 20px;
+    font-weight: 800;
+    color: var(--gold);
+    font-size: 1.3rem;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes floatingEffect {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes hitmarkerFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) rotate(45deg) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) rotate(45deg) scale(0.9); }
+}
+
+@keyframes damageAnim {
+    0% { opacity: 1; transform: translate(-50%, -100%) scale(0.8); }
+    30% { transform: translate(-50%, -140%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -180%) scale(0.8); }
+}
+
+@keyframes damageHeadshotAnim {
+    0% { opacity: 1; transform: translate(-50%, -100%) scale(0.7) rotate(-5deg); }
+    35% { transform: translate(-50%, -160%) scale(1.2) rotate(5deg); }
+    100% { opacity: 0; transform: translate(-50%, -220%) scale(0.7) rotate(0deg); }
+}
+
+@keyframes bannerPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1.0); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+@keyframes scalePop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes scaleThrob {
+    0%, 100% { transform: scale(0.9); }
+    50% { transform: scale(1.05); }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Minimap style classes */
+.minimap-container {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    z-index: 60;
+    background: rgba(10, 15, 25, 0.95);
+    display: none;
+}
+#minimap-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Center Crosshair styles */
+.crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 55;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.crosshair-dot {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--neon-cyan);
+}
+.crosshair-line-left {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: rgba(0, 255, 204, 0.7);
+    left: -8px;
+}
+.crosshair-line-right {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: rgba(0, 255, 204, 0.7);
+    right: -8px;
+}
+.crosshair-line-top {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background-color: rgba(0, 255, 204, 0.7);
+    top: -8px;
+}
+.crosshair-line-bottom {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background-color: rgba(0, 255, 204, 0.7);
+    bottom: -8px;
+}
+
